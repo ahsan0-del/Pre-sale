@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>British DoG 🐕 Presale</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>British DoG 🐕 Presale</h1>
+      <p>Join the most loyal meme coin on BSC!</p>
+    </header>
+
+    <section class="wallet-address">
+      <h3>Send BNB to this address:</h3>
+      <p class="address">0xdf21b5046cdd2ee9d7ddd2a6f8c01d5676997762</p>
+    </section>
+
+    <section class="progress">
+      <h3>Presale Progress</h3>
+      <div class="progress-bar">
+        <div class="progress-fill" style="width: 38%;"></div>
+      </div>
+      <p>38% Raised</p>
+    </section>
+
+    <section class="check-wallet">
+      <h3>Check Wallet Confirmation</h3>
+      <input type="text" id="walletInput" placeholder="Enter your wallet address..." />
+      <button onclick="checkWallet()">Check</button>
+      <div id="result"></div>
+    </section>
+  </div>
+
+  <script>
+    function checkWallet() {
+      const input = document.getElementById('walletInput').value.trim();
+      const result = document.getElementById('result');
+
+      if (input === '') {
+        result.textContent = 'Please enter a wallet address.';
+        result.style.color = 'orange';
+        return;
+      }
+
+      // Simulated confirmed address
+      const confirmedWallets = [
+        '0x1234567890123456789012345678901234567890',
+        '0xdf21b5046cdd2ee9d7ddd2a6f8c01d5676997762'
+      ];
+
+      if (confirmedWallets.includes(input.toLowerCase())) {
+        result.textContent = '✅ Wallet Confirmed!';
+        result.style.color = 'limegreen';
+      } else {
+        result.textContent = '❌ Wallet not found yet.';
+        result.style.color = 'red';
+      }
+    }
+  </script>
+</body>
+</html>
