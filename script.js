@@ -1,3 +1,11 @@
+// Initialize particles.js
+document.addEventListener('DOMContentLoaded', function() {
+    if (window.particlesJS) {
+        particlesJS.load('particles-js', 'assets/particles-config.json', function() {
+            console.log('Particles loaded!');
+        });
+    }
+});
 // Contract Configuration (Replace with your contract details)
 const contractAddress = "0xYOUR_DEPLOYED_CONTRACT_ADDRESS";
 const contractABI = [PASTE_YOUR_ABI_HERE]; // From Remix IDE
