@@ -16,39 +16,35 @@
 body {
     font-family: 'Rajdhani', 'Orbitron', sans-serif;
     color: var(--light);
-    background: var(--darker);
+    background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 100%);
+    min-height: 100vh;
     overflow-x: hidden;
 }
 
-/* Particle Background */
 #particles-js {
     position: fixed;
     width: 100%;
     height: 100%;
     z-index: -1;
-    background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 100%);
+    background: transparent;
 }
 
 .glass-container {
-    background: rgba(10, 10, 20, 0.7);
+    background: rgba(10, 10, 20, 0.85);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border-radius: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    width: 90%;
+    border: 1px solid rgba(0, 240, 255, 0.1);
+    width: 95%;
     max-width: 1200px;
     margin: 2rem auto;
     padding: 2rem;
     box-shadow: 0 0 30px rgba(0, 240, 255, 0.1);
 }
 
-/* Neon Text Effect */
 .neon-text {
     color: var(--primary);
-    text-shadow: 
-        0 0 5px rgba(0, 240, 255, 0.5),
-        0 0 10px rgba(0, 240, 255, 0.3),
-        0 0 15px rgba(0, 240, 255, 0.2);
+    text-shadow: 0 0 5px rgba(0, 240, 255, 0.3);
 }
 
 header {
@@ -84,7 +80,7 @@ header {
 
 .title {
     font-family: 'Orbitron', sans-serif;
-    font-size: 3.5rem;
+    font-size: 2.5rem;
     text-align: center;
     margin-bottom: 1rem;
     letter-spacing: 2px;
@@ -93,14 +89,14 @@ header {
 .subtitle {
     text-align: center;
     margin-bottom: 3rem;
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     font-weight: 300;
 }
 
 .stats-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
+    gap: 1rem;
     margin-bottom: 3rem;
 }
 
@@ -116,7 +112,6 @@ header {
 .stat-card:hover {
     transform: translateY(-5px);
     background: rgba(0, 240, 255, 0.1);
-    box-shadow: 0 5px 15px rgba(0, 240, 255, 0.1);
 }
 
 .stat-icon {
@@ -135,7 +130,7 @@ header {
 }
 
 .stat-card p {
-    font-size: 1.8rem;
+    font-size: 1.5rem;
     font-weight: 700;
     color: var(--primary);
     font-family: 'Orbitron', sans-serif;
@@ -161,8 +156,6 @@ header {
     transition: all 0.3s;
     font-family: 'Rajdhani', sans-serif;
     letter-spacing: 1px;
-    position: relative;
-    overflow: hidden;
     background: rgba(0, 240, 255, 0.1);
     color: var(--primary);
     border: 1px solid var(--primary);
@@ -172,26 +165,6 @@ header {
     background: rgba(150, 0, 255, 0.1);
     color: var(--secondary);
     border-color: var(--secondary);
-}
-
-.neon-button::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: linear-gradient(
-        transparent,
-        rgba(0, 240, 255, 0.2),
-        transparent
-    );
-    transform: rotate(45deg);
-    transition: all 0.3s;
-}
-
-.neon-button:hover::before {
-    left: 100%;
 }
 
 .neon-button:hover {
@@ -260,7 +233,7 @@ footer {
     }
     
     .title {
-        font-size: 2.5rem;
+        font-size: 2rem;
     }
     
     .logo {
