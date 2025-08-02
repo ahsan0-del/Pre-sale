@@ -1,14 +1,6 @@
-// Initialize particles.js
-document.addEventListener('DOMContentLoaded', function() {
-    if (window.particlesJS) {
-        particlesJS.load('particles-js', 'assets/particles-config.json', function() {
-            console.log('Particles loaded!');
-        });
-    }
-});
-// Contract Configuration (Replace with your contract details)
-const contractAddress = "0xYOUR_DEPLOYED_CONTRACT_ADDRESS";
-const contractABI = [PASTE_YOUR_ABI_HERE]; // From Remix IDE
+// Contract Configuration
+const contractAddress = "0xYOUR_CONTRACT_ADDRESS";
+const contractABI = [PASTE_YOUR_ABI_HERE];
 
 // DOM Elements
 const connectBtn = document.getElementById("connect-btn");
@@ -26,23 +18,13 @@ let provider, signer, contract, userAddress;
 
 // Initialize
 window.addEventListener('load', async () => {
-    // Check if MetaMask is installed
     if (window.ethereum) {
         provider = new ethers.providers.Web3Provider(window.ethereum);
-        
-        // Check connection status
         const accounts = await provider.listAccounts();
-        if (accounts.length > 0) {
-            await handleWalletConnected(accounts[0]);
-        }
+        if (accounts.length > 0) await handleWalletConnected(accounts[0]);
         
-        // Listen for account changes
         window.ethereum.on('accountsChanged', (accounts) => {
-            if (accounts.length > 0) {
-                handleWalletConnected(accounts[0]);
-            } else {
-                handleWalletDisconnected();
-            }
+            accounts.length > 0 ? handleWalletConnected(accounts[0]) : handleWalletDisconnected();
         });
     } else {
         connectBtn.textContent = "Install MetaMask";
@@ -56,17 +38,13 @@ connectBtn.addEventListener('click', async () => {
         const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
         await handleWalletConnected(accounts[0]);
     } catch (error) {
-        console.error("Error connecting wallet:", error);
-        alert("Failed to connect wallet: " + error.message);
+        alert("Failed to connect: " + error.message);
     }
 });
 
 // Enter Lottery
 enterBtn.addEventListener('click', async () => {
-    if (!contract) {
-        alert("Please connect your wallet first!");
-        return;
-    }
+    if (!contract) return alert("Connect wallet first!");
     
     try {
         enterBtn.disabled = true;
@@ -75,16 +53,14 @@ enterBtn.addEventListener('click', async () => {
         const tx = await contract.enter({ 
             value: ethers.utils.parseEther("0.025") 
         });
-        
         await tx.wait();
-        alert("Success! You've entered the VIP lottery.");
+        alert("You're in the lottery!");
         updateContractData();
     } catch (error) {
-        console.error("Error entering lottery:", error);
-        alert("Transaction failed: " + error.message);
+        alert("Error: " + error.message);
     } finally {
         enterBtn.disabled = false;
-        enterBtn.innerHTML = '<i class="fas fa-ticket-alt"></i> BUY TICKET (0.025 ETH)';
+        enterBtn.innerHTML = '<i class="fas fa-ticket-alt"></i> BUY TICKET';
     }
 });
 
@@ -94,107 +70,48 @@ async function handleWalletConnected(account) {
     signer = provider.getSigner();
     contract = new ethers.Contract(contractAddress, contractABI, signer);
     
-    // Update UI
     connectBtn.style.display = 'none';
-    walletStatus.innerHTML = `<i class="fas fa-wallet"></i> ${shortenAddress(userAddress)}`;
+    walletStatus.innerHTML = `<i class="fas fa-wallet"></i> ${userAddress.slice(0, 6)}...${userAddress.slice(-4)}`;
     walletStatus.classList.add('connected');
     
-    // Check if admin
-    const isAdmin = await contract.admin() === userAddress;
-    if (isAdmin) {
+    if (await contract.admin() === userAddress) {
         const adminBtn = document.createElement('button');
-        adminBtn.id = 'admin-btn';
-        adminBtn.className = 'cta-button secondary';
+        adminBtn.className = 'neon-button';
         adminBtn.innerHTML = '<i class="fas fa-crown"></i> DRAW WINNER';
-        adminBtn.addEventListener('click', drawWinner);
+        adminBtn.onclick = drawWinner;
         enterBtn.after(adminBtn);
     }
     
-    // Load contract data
     updateContractData();
-    
-    // Listen for events
-    contract.on("NewEntry", (participant) => {
-        updateContractData();
-    });
-    
-    contract.on("WinnerSelected", (winner, prize) => {
-        showWinner(winner, prize);
-        updateContractData();
-    });
-}
-
-// Handle Wallet Disconnected
-function handleWalletDisconnected() {
-    userAddress = null;
-    contract = null;
-    
-    // Update UI
-    connectBtn.style.display = 'block';
-    walletStatus.innerHTML = '<i class="fas fa-wallet"></i> Not Connected';
-    walletStatus.classList.remove('connected');
-    
-    const adminBtn = document.getElementById('admin-btn');
-    if (adminBtn) adminBtn.remove();
+    contract.on("NewEntry", updateContractData);
+    contract.on("WinnerSelected", (winner, prize) => showWinner(winner, prize));
 }
 
 // Update Contract Data
 async function updateContractData() {
     if (!contract) return;
     
-    try {
-        const pool = await contract.currentPool();
-        const participantCount = (await contract.getParticipants()).length;
-        const lastWinner = await contract.lastWinner() || "TBD";
-        
-        currentPoolEl.textContent = ethers.utils.formatEther(pool) + " ETH";
-        participantsEl.textContent = participantCount;
-        lastWinnerEl.textContent = shortenAddress(lastWinner);
-    } catch (error) {
-        console.error("Error fetching contract data:", error);
-    }
-}
-
-// Draw Winner (Admin Only)
-async function drawWinner() {
-    if (!contract) return;
+    const pool = await contract.currentPool();
+    const participants = (await contract.getParticipants()).length;
+    const lastWinner = (await contract.lastWinner()) || "TBD";
     
-    try {
-        const adminBtn = document.getElementById('admin-btn');
-        adminBtn.disabled = true;
-        adminBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> PROCESSING...';
-        
-        const tx = await contract.drawWinner();
-        await tx.wait();
-    } catch (error) {
-        console.error("Error drawing winner:", error);
-        alert("Only admin can draw winner!");
-    } finally {
-        const adminBtn = document.getElementById('admin-btn');
-        if (adminBtn) {
-            adminBtn.disabled = false;
-            adminBtn.innerHTML = '<i class="fas fa-crown"></i> DRAW WINNER';
-        }
-    }
+    currentPoolEl.textContent = ethers.utils.formatEther(pool) + " ETH";
+    participantsEl.textContent = participants;
+    lastWinnerEl.textContent = lastWinner === "TBD" ? "TBD" : `${lastWinner.slice(0, 6)}...${lastWinner.slice(-4)}`;
 }
 
-// Show Winner with Confetti
+// Show Winner
 function showWinner(winner, prize) {
-    winnerAddressEl.textContent = shortenAddress(winner);
+    winnerAddressEl.textContent = `${winner.slice(0, 6)}...${winner.slice(-4)}`;
     prizeAmountEl.textContent = ethers.utils.formatEther(prize);
     winnerBanner.classList.remove('hidden');
     
-    // Trigger confetti
-    const confettiSettings = { target: 'confetti', max: 150, size: 1.5 };
-    const confetti = new ConfettiGenerator(confettiSettings);
+    const confetti = new ConfettiGenerator({
+        target: 'confetti',
+        max: 150,
+        size: 1.5
+    });
     confetti.render();
     
-    setTimeout(() => {
-        confetti.clear();
-    }, 5000);
-}
-
-// Helper: Shorten Ethereum Address
-function shortenAddress(address) {
-    return address ? `${address.substring(0, 6)}...${address.substring(address.length - 4)}` : "";
+    setTimeout(() => confetti.clear(), 5000);
 }
