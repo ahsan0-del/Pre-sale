@@ -1,91 +1,35 @@
 body {
-  margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(135deg, #1d1f27, #3b3d4f);
-  color: #fff;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  padding: 40px 15px;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background: #f5f5f5;
+    padding: 20px;
 }
 
 .container {
-  background: #2a2c39;
-  padding: 25px;
-  border-radius: 12px;
-  box-shadow: 0 0 20px rgba(0,0,0,0.3);
-  max-width: 500px;
-  width: 100%;
-}
-
-header {
-  text-align: center;
-  margin-bottom: 25px;
-}
-
-header h1 {
-  font-size: 28px;
-  color: #ffdc5e;
-}
-
-header p {
-  font-size: 16px;
-  color: #ccc;
-}
-
-.wallet-address {
-  text-align: center;
-  margin: 20px 0;
-}
-
-.wallet-address .address {
-  font-weight: bold;
-  color: #00ffcc;
-  font-size: 14px;
-  word-break: break-all;
-}
-
-.progress {
-  margin: 25px 0;
-  text-align: center;
-}
-
-.progress-bar {
-  background: #555;
-  height: 18px;
-  border-radius: 10px;
-  overflow: hidden;
-}
-
-.progress-fill {
-  background: linear-gradient(to right, #00ffcc, #ffdd57);
-  height: 100%;
-  transition: width 1s ease-in-out;
-}
-
-.check-wallet {
-  text-align: center;
-  margin-top: 30px;
-}
-
-input[type="text"] {
-  padding: 10px;
-  width: 90%;
-  border: none;
-  border-radius: 8px;
-  margin-bottom: 10px;
+    max-width: 600px;
+    margin: 0 auto;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
 button {
-  padding: 10px 20px;
-  background: #00b894;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
+    background: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 10px;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
-button:hover {
-  background: #019875;
+#draw-btn {
+    background: #f44336;
+}
+
+#winner {
+    margin-top: 20px;
+    font-weight: bold;
+    color: #4CAF50;
 }
