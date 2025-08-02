@@ -3,24 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elite Fortune | VIP Crypto Lottery</title>
+    <title>NEON FORTUNE | VIP Crypto Lottery</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
     <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"></script>
     <script src="assets/confetti.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Animated Background -->
-    <video autoplay muted loop id="bg-video">
-        <source src="assets/background.mp4" type="video/mp4">
-    </video>
+    <!-- Particle Background -->
+    <div id="particles-js"></div>
 
     <!-- Main Container -->
     <div class="glass-container">
         <!-- Header -->
         <header>
-            <img src="assets/logo.png" alt="Elite Fortune" class="logo">
+            <div class="logo">
+                <span class="neon-text">NEON</span> FORTUNE
+            </div>
             <div class="wallet-status" id="wallet-status">
                 <i class="fas fa-wallet"></i>
                 <span>Not Connected</span>
@@ -29,39 +29,49 @@
 
         <!-- Hero Section -->
         <main>
-            <h1 class="title">VIP <span>CRYPTO</span> LOTTERY</h1>
-            <p class="subtitle">Enter with 0.025 ETH (~$50) for a chance to win <span>0.45 ETH (~$900)!</span></p>
+            <h1 class="title">
+                <span class="neon-text">BLOCKCHAIN</span> LOTTERY
+            </h1>
+            <p class="subtitle">0.025 ETH entry for <span class="neon-text">0.45 ETH JACKPOT</span></p>
             
             <div class="stats-grid">
                 <div class="stat-card">
-                    <i class="fas fa-coins"></i>
+                    <div class="stat-icon">
+                        <i class="fas fa-coins"></i>
+                    </div>
                     <h3>Current Pool</h3>
                     <p id="current-pool">0 ETH</p>
                 </div>
                 <div class="stat-card">
-                    <i class="fas fa-users"></i>
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
                     <h3>Participants</h3>
                     <p id="participants">0</p>
                 </div>
                 <div class="stat-card">
-                    <i class="fas fa-trophy"></i>
+                    <div class="stat-icon">
+                        <i class="fas fa-trophy"></i>
+                    </div>
                     <h3>Last Winner</h3>
                     <p id="last-winner">TBD</p>
                 </div>
             </div>
 
-            <button id="connect-btn" class="cta-button">
-                <i class="fas fa-plug"></i> CONNECT WALLET
-            </button>
-            <button id="enter-btn" class="cta-button secondary">
-                <i class="fas fa-ticket-alt"></i> BUY TICKET (0.025 ETH)
-            </button>
+            <div class="action-buttons">
+                <button id="connect-btn" class="neon-button">
+                    <i class="fas fa-plug"></i> CONNECT WALLET
+                </button>
+                <button id="enter-btn" class="neon-button purple">
+                    <i class="fas fa-ticket-alt"></i> BUY TICKET
+                </button>
+            </div>
 
             <div id="winner-banner" class="winner-banner hidden">
                 <div class="confetti-container" id="confetti"></div>
-                <h2>🎉 WINNER ANNOUNCED! 🎉</h2>
+                <h2><span class="neon-text">🎉 WINNER! 🎉</span></h2>
                 <p id="winner-address"></p>
-                <p>Won <span id="prize-amount"></span> ETH!</p>
+                <p>Won <span class="neon-text" id="prize-amount"></span> ETH!</p>
             </div>
         </main>
 
@@ -72,10 +82,12 @@
                 <a href="#"><i class="fab fa-discord"></i></a>
                 <a href="#"><i class="fab fa-telegram"></i></a>
             </div>
-            <p>© 2023 Elite Fortune | Provably Fair Blockchain Lottery</p>
+            <p>© 2023 NEON FORTUNE | Provably Fair Smart Contract</p>
         </footer>
     </div>
 
+    <!-- Particle.js -->
+    <script src="assets/particles.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
