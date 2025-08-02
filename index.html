@@ -1,28 +1,81 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Crypto Lottery</title>
-    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elite Fortune | VIP Crypto Lottery</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"></script>
+    <script src="assets/confetti.js"></script>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <h1>💰 Crypto Lottery 💰</h1>
-        <p>Send 0.0025 ETH (~$5) to enter. Win 0.045 ETH (~$90)!</p>
-        
-        <button id="connect-btn">Connect Wallet</button>
-        
-        <div class="info">
-            <p>Pool: <span id="pool">0 ETH</span></p>
-            <p>Participants: <span id="participants">0</span></p>
-        </div>
-        
-        <button id="enter-btn">Enter Lottery (0.0025 ETH)</button>
-        <button id="draw-btn">Draw Winner (Admin)</button>
-        
-        <div id="winner"></div>
+    <!-- Animated Background -->
+    <video autoplay muted loop id="bg-video">
+        <source src="assets/background.mp4" type="video/mp4">
+    </video>
+
+    <!-- Main Container -->
+    <div class="glass-container">
+        <!-- Header -->
+        <header>
+            <img src="assets/logo.png" alt="Elite Fortune" class="logo">
+            <div class="wallet-status" id="wallet-status">
+                <i class="fas fa-wallet"></i>
+                <span>Not Connected</span>
+            </div>
+        </header>
+
+        <!-- Hero Section -->
+        <main>
+            <h1 class="title">VIP <span>CRYPTO</span> LOTTERY</h1>
+            <p class="subtitle">Enter with 0.025 ETH (~$50) for a chance to win <span>0.45 ETH (~$900)!</span></p>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <i class="fas fa-coins"></i>
+                    <h3>Current Pool</h3>
+                    <p id="current-pool">0 ETH</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-users"></i>
+                    <h3>Participants</h3>
+                    <p id="participants">0</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-trophy"></i>
+                    <h3>Last Winner</h3>
+                    <p id="last-winner">TBD</p>
+                </div>
+            </div>
+
+            <button id="connect-btn" class="cta-button">
+                <i class="fas fa-plug"></i> CONNECT WALLET
+            </button>
+            <button id="enter-btn" class="cta-button secondary">
+                <i class="fas fa-ticket-alt"></i> BUY TICKET (0.025 ETH)
+            </button>
+
+            <div id="winner-banner" class="winner-banner hidden">
+                <div class="confetti-container" id="confetti"></div>
+                <h2>🎉 WINNER ANNOUNCED! 🎉</h2>
+                <p id="winner-address"></p>
+                <p>Won <span id="prize-amount"></span> ETH!</p>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-discord"></i></a>
+                <a href="#"><i class="fab fa-telegram"></i></a>
+            </div>
+            <p>© 2023 Elite Fortune | Provably Fair Blockchain Lottery</p>
+        </footer>
     </div>
-    
+
     <script src="script.js"></script>
 </body>
 </html>
