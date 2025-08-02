@@ -1,64 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>British DoG 🐕 Presale</title>
-  <link rel="stylesheet" href="styles.css" />
+    <title>Crypto Lottery</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"></script>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <h1>British DoG 🐕 Presale</h1>
-      <p>Join the most loyal meme coin on BSC!</p>
-    </header>
-
-    <section class="wallet-address">
-      <h3>Send BNB to this address:</h3>
-      <p class="address">0xdf21b5046cdd2ee9d7ddd2a6f8c01d5676997762</p>
-    </section>
-
-    <section class="progress">
-      <h3>Presale Progress</h3>
-      <div class="progress-bar">
-        <div class="progress-fill" style="width: 38%;"></div>
-      </div>
-      <p>38% Raised</p>
-    </section>
-
-    <section class="check-wallet">
-      <h3>Check Wallet Confirmation</h3>
-      <input type="text" id="walletInput" placeholder="Enter your wallet address..." />
-      <button onclick="checkWallet()">Check</button>
-      <div id="result"></div>
-    </section>
-  </div>
-
-  <script>
-    function checkWallet() {
-      const input = document.getElementById('walletInput').value.trim();
-      const result = document.getElementById('result');
-
-      if (input === '') {
-        result.textContent = 'Please enter a wallet address.';
-        result.style.color = 'orange';
-        return;
-      }
-
-      // Simulated confirmed address
-      const confirmedWallets = [
-        '0x1234567890123456789012345678901234567890',
-        '0xdf21b5046cdd2ee9d7ddd2a6f8c01d5676997762'
-      ];
-
-      if (confirmedWallets.includes(input.toLowerCase())) {
-        result.textContent = '✅ Wallet Confirmed!';
-        result.style.color = 'limegreen';
-      } else {
-        result.textContent = '❌ Wallet not found yet.';
-        result.style.color = 'red';
-      }
-    }
-  </script>
+    <div class="container">
+        <h1>💰 Crypto Lottery 💰</h1>
+        <p>Send 0.0025 ETH (~$5) to enter. Win 0.045 ETH (~$90)!</p>
+        
+        <button id="connect-btn">Connect Wallet</button>
+        
+        <div class="info">
+            <p>Pool: <span id="pool">0 ETH</span></p>
+            <p>Participants: <span id="participants">0</span></p>
+        </div>
+        
+        <button id="enter-btn">Enter Lottery (0.0025 ETH)</button>
+        <button id="draw-btn">Draw Winner (Admin)</button>
+        
+        <div id="winner"></div>
+    </div>
+    
+    <script src="script.js"></script>
 </body>
 </html>
