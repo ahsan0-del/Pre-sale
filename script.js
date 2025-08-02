@@ -1,40 +1,68 @@
-function checkWallet() {
-  const wallet = document.getElementById("walletInput").value.trim();
-  const result = document.getElementById("result");
+// Contract details (replace with yours)
+const contractAddress = "0xYOUR_CONTRACT_ADDRESS";
+const contractABI = [PASTE_YOUR_ABI_HERE]; // From Remix
 
-  if (!wallet.startsWith("0x") || wallet.length !== 42) {
-    result.textContent = "❌ Invalid wallet address.";
-    result.style.color = "red";
-    return;
-  }
+let provider, signer, contract, userAddress;
 
-  result.textContent = "⏳ Checking...";
-  result.style.color = "#333";
-
-  // Simulated backend confirmation
-  fetch("/api/check-wallet", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ walletAddress: wallet })
-  })
-    .then((res) => res.json())
-    .then((data) => {
-      if (data.confirmed) {
-        result.textContent = "✅ Your contribution is confirmed. Thank you!";
-        result.style.color = "green";
-      } else {
-        result.textContent = "❌ No contribution found for this wallet.";
-        result.style.color = "red";
-      }
-    })
-    .catch(() => {
-      result.textContent = "⚠️ Error checking wallet. Try again later.";
-      result.style.color = "orange";
-    });
-}
-
-// Progress bar simulation (35%)
-document.addEventListener("DOMContentLoaded", () => {
-  const progressFill = document.getElementById("progressFill");
-  progressFill.style.width = "35%";
+// Connect Wallet
+document.getElementById("connect-btn").addEventListener("click", async () => {
+    if (window.ethereum) {
+        try {
+            await window.ethereum.request({ method: "eth_requestAccounts" });
+            provider = new ethers.providers.Web3Provider(window.ethereum);
+            signer = provider.getSigner();
+            userAddress = await signer.getAddress();
+            contract = new ethers.Contract(contractAddress, contractABI, signer);
+            
+            alert(`Connected: ${userAddress}`);
+            updatePoolInfo();
+        } catch (error) {
+            alert("Error connecting: " + error.message);
+        }
+    } else {
+        alert("Please install MetaMask!");
+    }
 });
+
+// Enter Lottery
+document.getElementById("enter-btn").addEventListener("click", async () => {
+    if (!contract) {
+        alert("Connect wallet first!");
+        return;
+    }
+    
+    try {
+        const tx = await contract.enter({ value: ethers.utils.parseEther("0.0025") });
+        await tx.wait();
+        alert("You're in the lottery!");
+        updatePoolInfo();
+    } catch (error) {
+        alert("Error: " + error.message);
+    }
+});
+
+// Draw Winner (Admin Only)
+document.getElementById("draw-btn").addEventListener("click", async () => {
+    if (!contract) {
+        alert("Connect wallet first!");
+        return;
+    }
+    
+    try {
+        const tx = await contract.drawWinner();
+        await tx.wait();
+        alert("Winner selected!");
+        updatePoolInfo();
+    } catch (error) {
+        alert("Only admin can draw winner!");
+    }
+});
+
+// Update Pool Info
+async function updatePoolInfo() {
+    const pool = await contract.currentPool();
+    const participants = await contract.participants.length;
+    
+    document.getElementById("pool").textContent = ethers.utils.formatEther(pool) + " ETH";
+    document.getElementById("participants").textContent = participants;
+}
